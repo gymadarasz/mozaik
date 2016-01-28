@@ -2,8 +2,182 @@
 <html>
 	<head>
 		<title>Mozaik</title>
+		
+		<style>
+		
+		.row {
+			position: relative;
+		}
+		
+		.handle {
+			position: absolute;
+			top: -10px;
+			left: 0;
+			display: block;
+			z-index: 1;
+		}
+		
+		</style>
+		
+		<link rel="stylesheet" href="vendor/components/jqueryui/themes/ui-lightness/jquery-ui.min.css">
+		<script src='vendor/components/jquery/jquery.min.js'></script>
+		<script src="vendor/components/jqueryui/jquery-ui.min.js"></script>
+		<script src='vendor/tinymce/tinymce/tinymce.min.js'></script>
+		
+		<script>
+		
+			$(function(){
+				return;
+				
+				$('.mozaik').sortable({
+					handle: '.handle'
+				});
+				
+				tinymce.init({
+					selector: '.mozaik .editable',
+					inline: true
+				});
+				
+				$('.thumbs').draggable({
+					handle: '.handle',
+					helper: 'clone',
+					
+				});
+				
+				$('.mozaik').droppable({
+					accept: '.thumbs',
+					drop: function(event, ui) {
+						$( "<li class=\"row\"></li>" ).html( ui.draggable.html() ).appendTo( this );
+						
+					}
+				});
+				
+			});
+			
+			
+			// mozaik helpers (private)
+			var mozaik = {
+				getThumbnailListHTML: function(id, thumbs) {
+					var html = '<ul id="' + id + '">';
+					for(var name in thumbs) {
+						var e = thumbs[name];
+						html += '<li class="mozaik-thumbnail" data-name="' + name + '">' + (e.thumbnail ? '<img src="' + e.thumbnail + '">' : '') + (e.label ? '<span>' + e.label + '</span>' : '') + '</li>';
+					}
+					html += '</ul>';
+					return html;
+				},
+				
+				getEditorListHTML: function() {
+					html = '<ul class="mozaik-list"></ul>';
+					return html;
+				},
+				
+				getEditorListElementHTML: function(name, innertext) {
+					html = '<li class="mozaik-elem" data-name="' + name + '">' + innertext + '</li>';
+					return html;
+				}
+			};
+			
+			(function($){
+				$.fn.mozaik = function(options) {
+					
+					var settings = $.extend({
+						thumbs: []
+					}, options);
+					
+					return this.each(function(i, e){
+						// add unique id attribute
+						if(!$(e).attr('id')) $(e).attr('id', 'mozaik-' + i);
+						
+						$(e).append(mozaik.getEditorListHTML());
+						
+						var $mozaik = $(e).find('.mozaik-list').first();
+						
+						// create thumbnails
+						var mozaikThumbsId = 'mozaik-thumbs-' + i;
+						$mozaik.before(mozaik.getThumbnailListHTML(mozaikThumbsId, settings.thumbs));
+						$('.mozaik-thumbnail').draggable({
+							//handle: '.handle',
+							helper: 'clone'
+						});
+						
+						// set area layout
+						$mozaik.css('min-height', 200);
+						$mozaik.css('background', 'gray');
+						
+						// make drag 'n' drop dropp area
+						$mozaik.droppable({
+							accept: '.mozaik-thumbnail',
+							drop: function(event, ui) {
+								var _this = this;
+								var name = ui.draggable.attr('data-name');
+								var url = settings.thumbs[name].tpl;
+								$.get(url, function(resp){
+									$(_this).append(mozaik.getEditorListElementHTML(name, resp));
+								});
+							}
+						});
+						
+						$mozaik.sortable({
+							// todo : add handler to list, add tinymce to editable area (may default editable selector or *)
+						});
+					});
+					
+				};
+			}(jQuery));
+			
+			$(function(){
+				$('.testarea').mozaik({
+					thumbs: {
+						headline: {thumbnail: 'mozaik/thumbs/headline.png', label: 'headline', tpl: 'mozaik/tpls/headline.html'},
+						content1: {thumbnail: 'mozaik/thumbs/content1.png', label: 'content', tpl: 'mozaik/tpls/content1.html'},
+						content3: {thumbnail: 'mozaik/thumbs/content3.png', label: 'three column', tpl: 'mozaik/tpls/content3.html'},
+						content2: {thumbnail: 'mozaik/thumbs/content2.png', label: 'two column', tpl: 'mozaik/tpls/content2.html'},
+						image3: {thumbnail: 'mozaik/thumbs/image3.png', label: 'three column with image', tpl: 'mozaik/tpls/image3.html'},
+						image2: {thumbnail: 'mozaik/thumbs/image2.png', label: 'two column with image', tpl: 'mozaik/tpls/image2.html'},
+						image1left: {thumbnail: 'mozaik/thumbs/image1left.png', label: 'content with image (left)', tpl: 'mozaik/tpls/image1left.html'},
+						image1right: {thumbnail: 'mozaik/thumbs/image1right.png', label: 'content with image (right)', tpl: 'mozaik/tpls/image1right.html'},
+						footer: {thumbnail: 'mozaik/thumbs/footer.png', label: 'footer', tpl: 'mozaik/tpls/footer.html'},
+					}
+				});
+			});
+			
+		
+		</script>
+		
 	</head>
-	<body>
-		<div id="mozaik"></div>
+	<body>		
+	
+		<div class="testarea"></div>
+		
+		<hr>
+		
+		<ul class="thumbs">
+			<li class="row">
+				<span class="handle">MOVE IT</span>
+				<div class="inner editable">Hello world!</div>
+			</li>
+		</ul>
+		<hr>
+		<ul class="mozaik">
+			<li class="row">
+				<span class="handle">MOVE IT</span>				
+				<div class="inner editable">Hello world!</div>
+			</li>
+			<li class="row">
+				<span class="handle">MOVE IT</span>
+				<div class="inner editable">Hello world! 2</div>
+			</li>
+			<li class="row">
+				<span class="handle">MOVE IT</span>
+				<div class="inner editable">Hello world! 3</div>
+			</li>
+			<li class="row">
+				<span class="handle">MOVE IT</span>
+				<div class="inner editable">Hello world! 4</div>
+			</li>
+		</ul>
+		
+		
 	</body>
 </hmtl>
