@@ -6,5 +6,8 @@
             "email": "gyula.madarasz@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "components/jquery": "^2.2",
+        "components/jqueryui": "^1.11"
+    }
 }
