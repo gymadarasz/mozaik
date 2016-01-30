@@ -87,6 +87,11 @@
 			border: 1px solid lightgray;
 			margin: 4px;
 		}
+		ul.mozaik-list li.mozaik-elem:hover ul.mozaik-tools li.mozaik-tool-btn a {
+			display: block;
+			float: none;
+			height: 100%;
+		}
 		
 		/* show on mouseover */
 		ul.mozaik-list li.mozaik-elem {
@@ -161,9 +166,11 @@
 					var html = 
 						'<li class="mozaik-elem" data-name="' + name + '">' + 
 						'	<ul class="mozaik-tools">' +
-						'		<li class="mozaik-tool-btn mozaik-tool-handle"></li>' + 
-						'		<li class="mozaik-tool-btn mozaik-tool-remove"></li>' + 
-						'		<li class="mozaik-tool-btn mozaik-tool-source">ACE</li>' + 
+						'		<li class="mozaik-tool-btn mozaik-tool-handle"><a href="javascript:;" title="Move"></a></li>' + 
+						'		<li class="mozaik-tool-btn mozaik-tool-remove"><a href="javascript:;" title="Delete"></a></li>' + 
+						'		<li class="mozaik-tool-btn mozaik-tool-stick"><a href="javascript:;" title="Stick">Glue</a></li>' + 
+						'		<li class="mozaik-tool-btn mozaik-tool-copy"><a href="javascript:;" title="Copy">Cpy</a></li>' + 
+						'		<li class="mozaik-tool-btn mozaik-tool-source"><a href="javascript:;" title="Source">Ace</a></li>' + 
 						'	</ul>' + this.getMozaikInnerHTML(name, innertext) +
 						'</li>';
 					return html;
@@ -284,18 +291,37 @@
 									selector: sels,
 									inline: true
 								});
-								$('.mozaik-tool-remove').click(function(){
-									$(this).closest('.mozaik-elem').remove();
-								});
-								$('.mozaik-tool-source').click(function(){
-									mozaik.aceElementId = $(this).closest('.mozaik-elem').find('.mozaik-inner').first().attr('id');
-									console.log('ace:', mozaik.aceElementId);
-									var html = $('#'+mozaik.aceElementId).html();
-									console.log(html);
-									mozaik.ace.setValue(html);
-									$('#mozaik-ace').show();
-								});
-							});						
+							});
+
+							// initialize toolbar
+							$mozaik.find('.mozaik-elem:last-child .mozaik-tool-remove').bind('click', function(){
+								$(this).closest('.mozaik-elem').remove();
+							});
+							$mozaik.find('.mozaik-elem:last-child .mozaik-tool-stick').bind('click', function(){
+								var next = $(this).closest('.mozaik-elem').next();
+								if(!next.hasClass('mozaik-elem')) {
+									alert('You can\'t stick the last element.');
+								}
+								else {
+									var html = next.find('.mozaik-inner').html();
+									$(this).closest('.mozaik-elem').find('.mozaik-inner').append(html);
+									next.remove();
+								}
+								return false;
+							});
+							$mozaik.find('.mozaik-elem:last-child .mozaik-tool-source').bind('click', function(){
+								mozaik.aceElementId = $(this).closest('.mozaik-elem').find('.mozaik-inner').first().attr('id');
+								console.log('ace:', mozaik.aceElementId);
+								var html = $('#'+mozaik.aceElementId).html();
+								console.log(html);
+								mozaik.ace.setValue(html);
+								$('#mozaik-ace').show();
+							});
+							$mozaik.find('.mozaik-elem:last-child .mozaik-tool-copy').bind('click', function(){
+								var html = $(this).closest('.mozaik-elem').find('.mozaik-inner').html();
+								addEditorListElement(false, html);
+							});
+								
 						};
 						
 						// put elements back which was inside of the editor area originally
@@ -322,6 +348,14 @@
 							});
 						}
 						
+						// reset layout positions							
+						var onResize = function() {
+							$mozaik.css({
+								width: $(e).outerWidth(true) - $('#' + mozaikThumbsId).outerWidth(true) - ($mozaik.outerWidth()-$mozaik.width()) - (parseInt($(e).css('border-left-width'))+parseInt($(e).css('border-right-width')))
+							});
+						};
+						
+						
 						// make drag 'n' drop dropp area
 						$mozaik.droppable({
 							accept: '.mozaik-thumbnail',
@@ -330,6 +364,7 @@
 								var url = settings.thumbs[name].tpl;
 								$.get(url, function(resp){
 									addEditorListElement(name, resp);
+									onResize();
 									//!@#
 								});
 							}
@@ -350,12 +385,6 @@
 							
 							//$('#'+mozaikThumbsId).outerHeight($('#'+mozaikThumbsId).parent().outerHeight());
 							//$mozaik.outerHeight($mozaik.parent().outerHeight());
-							
-							var onResize = function() {
-								$mozaik.css({
-									width: $(e).outerWidth(true) - $('#' + mozaikThumbsId).outerWidth(true) - ($mozaik.outerWidth()-$mozaik.width()) - (parseInt($(e).css('border-left-width'))+parseInt($(e).css('border-right-width')))
-								});
-							};
 							
 							onResize();
 							
