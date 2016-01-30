@@ -1,0 +1,10 @@
+.mozaik-inner {
+	width: 600px;
+	margin: 0 auto;
+	background: white;
+	padding: 0 30px;
+}
+
+.mozaik-inner * {
+	font-family: Arial, Helvetica, sans-serif;
+}

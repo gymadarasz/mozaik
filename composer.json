@@ -9,6 +9,8 @@
     "require": {
         "components/jquery": "^2.2",
         "components/jqueryui": "^1.11",
-        "tinymce/tinymce": "^4.3"
+        "tinymce/tinymce": "^4.3",
+        "gymadarasz/imagesloaded": "^4.1",
+        "gymadarasz/ace": "^1.2"
     }
 }

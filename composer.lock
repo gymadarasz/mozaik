@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f4498e8b0df9b23eb8821fdf4b56b27b",
-    "content-hash": "8c8a9e68c2841eb4567fe5c4c69e8478",
+    "hash": "d08b712845c0db4145174a183667bdab",
+    "content-hash": "c9f58474734fc763c75f897715b76437",
     "packages": [
         {
             "name": "components/jquery",
@@ -133,6 +133,62 @@
             ],
             "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.",
             "time": "2015-03-13 14:48:12"
+        },
+        {
+            "name": "gymadarasz/ace",
+            "version": "v1.2.3.stable",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gymadarasz/ace-builds.git",
+                "reference": "b42c59125a1ad073a0af9955812d9811814030ec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gymadarasz/ace-builds/zipball/b42c59125a1ad073a0af9955812d9811814030ec",
+                "reference": "b42c59125a1ad073a0af9955812d9811814030ec",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "gymadarasz",
+                    "email": "gyula.madarasz@gmail.com"
+                }
+            ],
+            "description": "ACE editor fork for composer",
+            "time": "2016-01-30 19:22:47"
+        },
+        {
+            "name": "gymadarasz/imagesloaded",
+            "version": "v4.1.01",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gymadarasz/imagesloaded.git",
+                "reference": "d156434a1cfab807961aca8497ee84a5bc249253"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gymadarasz/imagesloaded/zipball/d156434a1cfab807961aca8497ee84a5bc249253",
+                "reference": "d156434a1cfab807961aca8497ee84a5bc249253",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "gymadarasz",
+                    "email": "gyula.madarasz@gmail.com"
+                }
+            ],
+            "description": "imagesloaded jquery plugin fork",
+            "time": "2016-01-29 19:34:06"
         },
         {
             "name": "tinymce/tinymce",
