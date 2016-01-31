@@ -10,6 +10,9 @@
 		}
 		
 		
+		/* mozaik */
+		.mozaik-clear {clear: both;}
+		
 		/* thumbnails */
 		
 		ul.mozaik-thumbs {
@@ -45,7 +48,7 @@
 			min-width: 300px;
 			min-height: 200px;
 			background-color: #ddd;
-			_overflow-y: scroll;			
+			overflow-y: scroll;			
 		}
 		ul.mozaik-list li.mozaik-elem {
 			list-style-type: none;
@@ -193,7 +196,12 @@
 				},
 				
 				ace: null,
-				aceElementId: null
+				aceElementId: null,
+				
+				getClearHTML: function() {
+					var html = '<div class="mozaik-clear"></div>';
+					return html;
+				}
 			};
 			
 			
@@ -349,10 +357,28 @@
 							});
 						}
 						
-						// reset layout positions							
+						// reset layout positions and clears
 						var onResize = function() {
+						
+							// layout width
 							$mozaik.css({
-								width: $(e).outerWidth(true) - $('#' + mozaikThumbsId).outerWidth(true) - ($mozaik.outerWidth()-$mozaik.width()) - (parseInt($(e).css('border-left-width'))+parseInt($(e).css('border-right-width')))
+								width: $(e).outerWidth(true) - $('#' + mozaikThumbsId).outerWidth(true) - ($mozaik.outerWidth()-$mozaik.width()) - (parseInt($(e).css('border-left-width'))+parseInt($(e).css('border-right-width'))),
+								height: $mozaik.parent().outerHeight(true) - ($mozaik.outerHeight(true)-$mozaik.height())
+							});
+							
+							// srollbars on editor area
+							if($mozaik.outerWidth(true)>$mozaik.parent().innerWidth()) {
+								$mozaik.css('overflow-x', 'scroll');
+							}
+							else {
+								$mozaik.css('overflow-x', 'auto');
+							}
+							
+							// clears
+							$mozaik.find('.mozaik-inner').each(function(i,e){
+								if(!$(e).last().hasClass('mozaik-clear')) {
+									$(e).append(mozaik.getClearHTML());
+								}
 							});
 						};
 						
@@ -497,8 +523,7 @@
 	<body>
 		<style>
 			.testarea {
-				_width: 800px;
-				_height: 400px;
+				height: 500px;
 				_border: 1px solid black;
 				_background: white;
 			}
@@ -535,4 +560,4 @@
 		
 		
 	</body>
-</hmtl>
+</html>
