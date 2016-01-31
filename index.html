@@ -11,8 +11,14 @@
 		
 		
 		/* mozaik */
+		.mozaik {
+			position: relative;
+			overflow: hidden;			
+		}
+		
 		.mozaik-inner {
-			width: 600px;
+			max-width: 600px;
+			width: auto;
 			margin: 0 auto;
 			background: white;
 			padding: 0 30px;
@@ -118,7 +124,7 @@
 			left: 0;
 			display: none;
 			z-index: 1;
-			opacity: 0.5;
+			opacity: 0.3;
 		}
 		ul.mozaik-list li.mozaik-elem ul.mozaik-tools:hover {
 			opacity: 1;
@@ -186,6 +192,24 @@
 			background-image: url(img/back57.png);
 		}
 		
+		/* mozaik preloader */
+		div.mozaik-preloader {
+			background-color: black;			
+			color: white;
+			text-align: center;
+			display: black;
+			float: none;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			border: none;
+			z-index: 1;
+			opacity: 0.8;
+		}
+		
+		
 		</style>
 		
 		<link rel="stylesheet" href="vendor/components/jqueryui/themes/ui-lightness/jquery-ui.min.css">
@@ -251,6 +275,11 @@
 				getClearHTML: function() {
 					var html = '<div class="mozaik-clear"></div>';
 					return html;
+				},
+				
+				getPreloaderHTML: function() {
+					var html = '<div class="mozaik-preloader"><img alt="loading.." src="img/725.gif"></div>';
+					return html;
 				}
 			};
 			
@@ -297,10 +326,11 @@
 						if(!$(e).attr('id')) {
 							$(e).attr('id', 'mozaik-' + i);
 						}
+						$(e).addClass('mozaik');
 						
-						// store and remove inner html
+						// store and remove inner html and add preloader...
 						var html = $(e).html();
-						$(e).html('');
+						$(e).html(mozaik.getPreloaderHTML());
 						
 						// add template styles
 						if(!style && $('#mozaik-style-' + i).length==0) {
@@ -439,6 +469,7 @@
 							}
 							
 						};
+						onResize();
 						
 						
 						// make drag 'n' drop dropp area
@@ -463,10 +494,10 @@
 						
 						// styles
 						$('body').imagesLoaded(function(){
-							$(e).css({
+							//$(e).css({
 								//width: 'auto'
-								overflow: 'hidden'
-							});
+								//overflow: 'hidden'
+							//});
 							
 							//$('#'+mozaikThumbsId).outerHeight($('#'+mozaikThumbsId).parent().outerHeight());
 							//$mozaik.outerHeight($mozaik.parent().outerHeight());
@@ -480,6 +511,7 @@
 								onResize();
 							});
 							
+							$(e).find('.mozaik-preloader').hide();
 						});
 									
 					});
@@ -585,6 +617,7 @@
 		<style>
 			.testarea {
 				height: 500px;
+				overflow: hidden;
 				_border: 1px solid black;
 				_background: white;
 			}

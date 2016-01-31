@@ -14,24 +14,24 @@ h6 {font-size: 8px;}
 .left {display: block; float: left;}
 
 .col2 {
-	width: 280px;
+	max-width: 280px;
 	float: left;
 	margin-right: 20px;
 }
 
 .col3 {
-	width: 180px;
+	max-width: 180px;
 	float: left;
 	margin-right: 20px;
 }
 
 .col4_1 {
-	width: 130px;
+	max-width: 130px;
 	float: left;
 	margin-right: 20px;
 }
 .col4_3 {
-	width: 430px;
+	max-width: 430px;
 	float: left;
 	margin-right: 20px;
 }
