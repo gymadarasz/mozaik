@@ -11,6 +11,15 @@
 		
 		
 		/* mozaik */
+		.mozaik-inner {
+			width: 600px;
+			margin: 0 auto;
+			background: white;
+			padding: 0 30px;
+			-webkit-box-shadow: 0px 40px 40px -40px rgba(0,0,0,0.75);
+			-moz-box-shadow: 0px 40px 40px -40px rgba(0,0,0,0.75);
+			box-shadow: 0px 40px 40px -40px rgba(0,0,0,0.75);	
+		}
 		.mozaik-clear {clear: both;}
 		
 		/* thumbnails */
@@ -61,6 +70,7 @@
 			border: 1px dotted black;
 			border-left: none;
 			border-right: none;
+			background-color: #aaa;
 		}		
 		
 		
@@ -105,21 +115,25 @@
 		}
 		ul.mozaik-list li.mozaik-elem ul.mozaik-tools {
 			position: absolute;
-			top: -10px;
+			top: 0;
 			left: 0;
 			display: none;
 			z-index: 1;
+			opacity: 0.5;
+		}
+		ul.mozaik-list li.mozaik-elem ul.mozaik-tools:hover {
+			opacity: 1;
 		}
 		
 		/* tool-icons */
 		ul.mozaik-list li.mozaik-elem ul.mozaik-tools li.mozaik-tool-handle {
-			background-image: url('mozaik/img/move.png');
+			background-image: url('img/move.png');
 		}
 		ul.mozaik-list li.mozaik-elem ul.mozaik-tools li.mozaik-tool-remove {
-			background-image: url('mozaik/img/remove.png');
+			background-image: url('img/remove.png');
 		}
 		ul.mozaik-list li.mozaik-elem ul.mozaik-tools li.mozaik-tool-source {
-			background-image: url('mozaik/img/source.png');
+			background-image: url('img/source.png');
 		}
 		
 		/* ace editor */
@@ -210,18 +224,18 @@
 					
 					var settings = $.extend({
 						thumbs: {
-							headline: {thumbnail: 'mozaik/thumbs/headline.png', label: 'Headline', tpl: 'mozaik/tpls/headline.html'},
-							content1: {thumbnail: 'mozaik/thumbs/content1.png', label: 'Content', tpl: 'mozaik/tpls/content1.html'},
-							content3: {thumbnail: 'mozaik/thumbs/content3.jpg', label: 'Three column', tpl: 'mozaik/tpls/content3.html'},
-							content2: {thumbnail: 'mozaik/thumbs/content2.jpg', label: 'Two column', tpl: 'mozaik/tpls/content2.html'},
-							image3: {thumbnail: 'mozaik/thumbs/image3.jpg', label: 'Three column with image', tpl: 'mozaik/tpls/image3.html'},
-							image2: {thumbnail: 'mozaik/thumbs/image2.jpg', label: 'Two column with image', tpl: 'mozaik/tpls/image2.html'},
-							image1left: {thumbnail: 'mozaik/thumbs/image1left.jpg', label: 'Content with image (left)', tpl: 'mozaik/tpls/image1left.html'},
-							image1right: {thumbnail: 'mozaik/thumbs/image1right.jpg', label: 'Content with image (right)', tpl: 'mozaik/tpls/image1right.html'},
-							footer: {thumbnail: 'mozaik/thumbs/footer.png', label: 'Footer', tpl: 'mozaik/tpls/footer.html'},
+							headline: {thumbnail: 'tpls/default/thumbs/headline.png', label: 'Headline', tpl: 'tpls/default/headline.html'},
+							content1: {thumbnail: 'tpls/default/thumbs/content1.png', label: 'Content', tpl: 'tpls/default/content1.html'},
+							content3: {thumbnail: 'tpls/default/thumbs/content3.jpg', label: 'Three column', tpl: 'tpls/default/content3.html'},
+							content2: {thumbnail: 'tpls/default/thumbs/content2.jpg', label: 'Two column', tpl: 'tpls/default/content2.html'},
+							image3: {thumbnail: 'tpls/default/thumbs/image3.jpg', label: 'Three column with image', tpl: 'tpls/default/image3.html'},
+							image2: {thumbnail: 'tpls/default/thumbs/image2.jpg', label: 'Two column with image', tpl: 'tpls/default/image2.html'},
+							image1left: {thumbnail: 'tpls/default/thumbs/image1left.jpg', label: 'Content with image (left)', tpl: 'tpls/default/image1left.html'},
+							image1right: {thumbnail: 'tpls/default/thumbs/image1right.jpg', label: 'Content with image (right)', tpl: 'tpls/default/image1right.html'},
+							footer: {thumbnail: 'tpls/default/thumbs/footer.png', label: 'Footer', tpl: 'tpls/default/footer.html'},
 						},
 						editables: 'editable',
-						style: 'mozaik/styles/default.css'
+						style: 'tpls/default/styles/default.css'
 					}, options);
 					
 					// add ace editor
@@ -290,7 +304,7 @@
 						//if(!$mozaik.css('background-color')) $mozaik.css('background-color', '#ddd');
 						
 						// add template particular
-						var addEditorListElement = function(name, html) {
+						var addEditorListElement = function(name, html, scrollDown) {
 							$mozaik.append(mozaik.getEditorListElementHTML(name, html));
 							var editables = name && settings.thumbs[name].editables ? settings.thumbs[name].editables.split(',') : settings.editables.split(',');
 							$.each(editables, function(i,e){
@@ -328,16 +342,23 @@
 							});
 							$mozaik.find('.mozaik-elem:last-child .mozaik-tool-copy').bind('click', function(){
 								var html = $(this).closest('.mozaik-elem').find('.mozaik-inner').html();
-								addEditorListElement(false, html);
+								addEditorListElement(false, html, scrollDown);
 							});
 								
-							var innerHeight = 0;
-							$mozaik.find('.mozaik-elem').each(function(i,e){
-								innerHeight+= $(e).outerHeight();
-							});
-							$mozaik.animate({
-								scrollTop: innerHeight
-							});
+							if(scrollDown) {
+								var innerHeight = 0;
+								$mozaik.find('.mozaik-elem').each(function(i,e){
+									innerHeight+= $(e).outerHeight();
+								});
+								$mozaik.animate({
+									scrollTop: innerHeight
+								});
+							}
+							
+							// clears
+							
+							$mozaik.find('.mozaik-clear').remove();							
+							$mozaik.find('.mozaik-inner').append(mozaik.getClearHTML());
 						};
 						
 						// put elements back which was inside of the editor area originally
@@ -381,12 +402,6 @@
 								$mozaik.css('overflow-x', 'auto');
 							}
 							
-							// clears
-							$mozaik.find('.mozaik-inner').each(function(i,e){
-								if(!$(e).last().hasClass('mozaik-clear')) {
-									$(e).append(mozaik.getClearHTML());
-								}
-							});
 						};
 						
 						
@@ -397,7 +412,7 @@
 								var name = ui.draggable.attr('data-name');
 								var url = settings.thumbs[name].tpl;
 								$.get(url, function(resp){
-									addEditorListElement(name, resp);
+									addEditorListElement(name, resp, true);
 									onResize();
 									//!@#
 								});
