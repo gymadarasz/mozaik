@@ -331,6 +331,13 @@
 								addEditorListElement(false, html);
 							});
 								
+							var innerHeight = 0;
+							$mozaik.find('.mozaik-elem').each(function(i,e){
+								innerHeight+= $(e).outerHeight();
+							});
+							$mozaik.animate({
+								scrollTop: innerHeight
+							});
 						};
 						
 						// put elements back which was inside of the editor area originally
