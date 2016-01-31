@@ -11,7 +11,6 @@
         "components/jqueryui": "^1.11",
         "tinymce/tinymce": "^4.3",
         "gymadarasz/imagesloaded": "^4.1",
-        "gymadarasz/ace": "^1.2",
-        "components/jquery-htmlclean": "^1.4"
+        "gymadarasz/ace": "^1.2"
     }
 }
