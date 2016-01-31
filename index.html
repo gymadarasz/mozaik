@@ -97,7 +97,6 @@
 			width: 24px;
 			height: 24px;
 			cursor: pointer;
-			border: 1px solid #ddd;
 			margin: 4px;
 		}
 		ul.mozaik-list li.mozaik-elem:hover ul.mozaik-tools li.mozaik-tool-btn a {
@@ -127,13 +126,19 @@
 		
 		/* tool-icons */
 		ul.mozaik-list li.mozaik-elem ul.mozaik-tools li.mozaik-tool-handle {
-			background-image: url('img/move.png');
+			background-image: url('img/direction401.png');
 		}
 		ul.mozaik-list li.mozaik-elem ul.mozaik-tools li.mozaik-tool-remove {
-			background-image: url('img/remove.png');
+			background-image: url('img/delete81.png');
 		}
 		ul.mozaik-list li.mozaik-elem ul.mozaik-tools li.mozaik-tool-source {
-			background-image: url('img/source.png');
+			background-image: url('img/computing10.png');
+		}
+		ul.mozaik-list li.mozaik-elem ul.mozaik-tools li.mozaik-tool-stick {
+			background-image: url('img/pinch.png');
+		}
+		ul.mozaik-list li.mozaik-elem ul.mozaik-tools li.mozaik-tool-copy {
+			background-image: url('img/archive46.png');
 		}
 		
 		/* ace editor */
@@ -149,6 +154,36 @@
 		}
 		div#mozaik-ace-editor {
 			min-height: 90%;
+		}
+		
+		/* toolbar for ace editor */
+		ul#mozaik-ace-tools {
+			display: block;
+			float: none;
+			height: 32px;
+			margin: 0;
+			padding: 0;
+			background: white;
+			border: 1px solid #ddd;
+		}
+		ul#mozaik-ace-tools li {
+			display: block;
+			width: 24px;
+			height: 24px;
+			cursor: pointer;
+			margin: 4px;
+			float: left;
+		}
+		ul#mozaik-ace-tools li a {
+			display: block;
+			float: none;
+			height: 100%;
+		}
+		li#mozaik-ace-tool-save {
+			background-image: url(img/check30.png);
+		}
+		li#mozaik-ace-tool-cancel {
+			background-image: url(img/back57.png);
 		}
 		
 		</style>
@@ -185,9 +220,9 @@
 						'	<ul class="mozaik-tools">' +
 						'		<li class="mozaik-tool-btn mozaik-tool-handle"><a href="javascript:;" title="Move"></a></li>' + 
 						'		<li class="mozaik-tool-btn mozaik-tool-remove"><a href="javascript:;" title="Delete"></a></li>' + 
-						'		<li class="mozaik-tool-btn mozaik-tool-stick"><a href="javascript:;" title="Stick">Glue</a></li>' + 
-						'		<li class="mozaik-tool-btn mozaik-tool-copy"><a href="javascript:;" title="Copy">Cpy</a></li>' + 
-						'		<li class="mozaik-tool-btn mozaik-tool-source"><a href="javascript:;" title="Source">Ace</a></li>' + 
+						'		<li class="mozaik-tool-btn mozaik-tool-stick"><a href="javascript:;" title="Stick"></a></li>' + 
+						'		<li class="mozaik-tool-btn mozaik-tool-copy"><a href="javascript:;" title="Copy"></a></li>' + 
+						'		<li class="mozaik-tool-btn mozaik-tool-source"><a href="javascript:;" title="Source"></a></li>' + 
 						'	</ul>' + this.getMozaikInnerHTML(name, innertext) +
 						'</li>';
 					return html;
@@ -202,7 +237,8 @@
 					var html = 
 						'<div id="mozaik-ace">' + 
 						'	<ul id="mozaik-ace-tools">' +
-						'		<li id="mozaik-ace-tool-save">Save</li><li id="mozaik-ace-tool-cancel">Cancel</li>' +
+						'		<li id="mozaik-ace-tool-save"><a href="javascript:;" title="Save"></a></li>' + 
+						'		<li id="mozaik-ace-tool-cancel"><a href="javascript:;" title="Cancel"></a></li></li>' +
 						'	</ul>' +
 						'	<div id="mozaik-ace-editor"></div>' +
 						'</div>';
