@@ -3,13 +3,16 @@
 	margin: 0 auto;
 	background: white;
 	padding: 0 30px;
+	-webkit-box-shadow: 0px 40px 40px -40px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 40px 40px -40px rgba(0,0,0,0.75);
+	box-shadow: 0px 40px 40px -40px rgba(0,0,0,0.75);	
 }
 
 * {
 	font-family: Arial, Helvetica, sans-serif;
-	color: #333;
+	color: #444;
 	font-size: 14px;
-	line-height: 1.5em;
+	line-height: 1.6em;
 }
 h1 {font-size: 24px;}
 h2 {font-size: 18px;}
@@ -17,3 +20,34 @@ h3 {font-size: 15px;}
 h4 {font-size: 12px;}
 h5 {font-size: 10px;}
 h6 {font-size: 8px;}
+
+.clear {clear: both;}
+.left {display: block; float: left;}
+
+.col2 {
+	width: 280px;
+	float: left;
+	margin-right: 20px;
+}
+
+.col3 {
+	width: 180px;
+	float: left;
+	margin-right: 20px;
+}
+
+.col4_1 {
+	width: 130px;
+	float: left;
+	margin-right: 20px;
+}
+.col4_3 {
+	width: 430px;
+	float: left;
+	margin-right: 20px;
+}
+
+.footer {
+	font-size: 10px;
+	padding: 20px;
+}

@@ -30,7 +30,7 @@
 			z-index: 1;
 		}
 		ul.mozaik-thumbs li.mozaik-thumbnail img {
-			border: 1px solid lightgray;		
+			border: 1px solid #ddd;		
 		}
 		
 		
@@ -38,27 +38,27 @@
 		
 		ul.mozaik-list {
 			list-style-type: none;
-			padding: 10px;
+			padding: 30px 10px;
 			margin: 0;
 			display: block;
 			float: left;
 			min-width: 300px;
 			min-height: 200px;
-			background-color: lightgray;
-			_overflow-y: scroll;
+			background-color: #ddd;
+			_overflow-y: scroll;			
 		}
 		ul.mozaik-list li.mozaik-elem {
 			list-style-type: none;
 			padding: 0;
 			margin: 0;
 			display: block;
-			float: none;
+			float: none;			
 		}
 		ul.mozaik-list li.mozaik-elem:hover {
 			border: 1px dotted black;
 			border-left: none;
 			border-right: none;
-		}
+		}		
 		
 		
 		/* tools */
@@ -70,7 +70,7 @@
 			display: block;
 			float: left;
 			background-color: white;
-			border: 1px solid lightgray;			
+			border: 1px solid #ddd;			
 			-webkit-box-shadow: 0px 10px 10px -10px rgba(0,0,0,0.75);
 			-moz-box-shadow: 0px 10px 10px -10px rgba(0,0,0,0.75);
 			box-shadow: 0px 10px 10px -10px rgba(0,0,0,0.75);			
@@ -84,7 +84,7 @@
 			width: 24px;
 			height: 24px;
 			cursor: pointer;
-			border: 1px solid lightgray;
+			border: 1px solid #ddd;
 			margin: 4px;
 		}
 		ul.mozaik-list li.mozaik-elem:hover ul.mozaik-tools li.mozaik-tool-btn a {
@@ -204,15 +204,15 @@
 						thumbs: {
 							headline: {thumbnail: 'mozaik/thumbs/headline.png', label: 'Headline', tpl: 'mozaik/tpls/headline.html'},
 							content1: {thumbnail: 'mozaik/thumbs/content1.png', label: 'Content', tpl: 'mozaik/tpls/content1.html'},
-							content3: {thumbnail: 'mozaik/thumbs/content3.png', label: 'Three column', tpl: 'mozaik/tpls/content3.html', editables: '*'},
-							content2: {thumbnail: 'mozaik/thumbs/content2.png', label: 'Two column', tpl: 'mozaik/tpls/content2.html', editables: '*'},
-							image3: {thumbnail: 'mozaik/thumbs/image3.png', label: 'Three column with image', tpl: 'mozaik/tpls/image3.html', editables: '*'},
-							image2: {thumbnail: 'mozaik/thumbs/image2.png', label: 'Two column with image', tpl: 'mozaik/tpls/image2.html', editables: '*'},
-							image1left: {thumbnail: 'mozaik/thumbs/image1left.png', label: 'Content with image (left)', tpl: 'mozaik/tpls/image1left.html', editables: '*'},
-							image1right: {thumbnail: 'mozaik/thumbs/image1right.png', label: 'Content with image (right)', tpl: 'mozaik/tpls/image1right.html', editables: '*'},
-							footer: {thumbnail: 'mozaik/thumbs/footer.png', label: 'Footer', tpl: 'mozaik/tpls/footer.html', editables: '*'},
+							content3: {thumbnail: 'mozaik/thumbs/content3.jpg', label: 'Three column', tpl: 'mozaik/tpls/content3.html'},
+							content2: {thumbnail: 'mozaik/thumbs/content2.jpg', label: 'Two column', tpl: 'mozaik/tpls/content2.html'},
+							image3: {thumbnail: 'mozaik/thumbs/image3.jpg', label: 'Three column with image', tpl: 'mozaik/tpls/image3.html'},
+							image2: {thumbnail: 'mozaik/thumbs/image2.jpg', label: 'Two column with image', tpl: 'mozaik/tpls/image2.html'},
+							image1left: {thumbnail: 'mozaik/thumbs/image1left.jpg', label: 'Content with image (left)', tpl: 'mozaik/tpls/image1left.html'},
+							image1right: {thumbnail: 'mozaik/thumbs/image1right.jpg', label: 'Content with image (right)', tpl: 'mozaik/tpls/image1right.html'},
+							footer: {thumbnail: 'mozaik/thumbs/footer.png', label: 'Footer', tpl: 'mozaik/tpls/footer.html'},
 						},
-						editables: '*',
+						editables: 'editable',
 						style: 'mozaik/styles/default.css'
 					}, options);
 					
@@ -245,7 +245,7 @@
 						$(e).html('');
 						
 						// add template styles
-						if(!style) {
+						if(!style && $('#mozaik-style-' + i).length==0) {
 							var _e = e;
 							var _i = i;
 							$.get(settings.style, function(css){
@@ -255,7 +255,7 @@
 										splits[i] = '#mozaik-' + _i + ' ' + splits[i];
 									}
 									style = splits.join('}');
-									$(_e).prepend('<style type="text/css">' + style + '</style>');
+									$(_e).prepend('<style id="mozaik-style-' + i + '" type="text/css">' + style + '</style>');
 								}
 								if(!style) {
 									style = true;
@@ -279,7 +279,7 @@
 						// set area layout
 						//if(!$mozaik.css('min-width')) $mozaik.css('min-width', 600);
 						//if(!$mozaik.css('min-height')) $mozaik.css('min-height', 300);
-						//if(!$mozaik.css('background-color')) $mozaik.css('background-color', 'lightgray');
+						//if(!$mozaik.css('background-color')) $mozaik.css('background-color', '#ddd');
 						
 						// add template particular
 						var addEditorListElement = function(name, html) {
@@ -289,7 +289,8 @@
 								var sels = '.mozaik-inner, .mozaik-inner ' + e;
 								tinyMCE.init({
 									selector: sels,
-									inline: true
+									inline: true,
+									plugins: "link image imagetools"
 								});
 							});
 
