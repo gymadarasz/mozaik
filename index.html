@@ -37,6 +37,7 @@
 			display: block;
 			float: left;
 			overflow-y: scroll;
+			display: none;
 		}
 		ul.mozaik-thumbs li.mozaik-thumbnail {
 			list-style-type: none;
@@ -300,7 +301,9 @@
 							footer: {thumbnail: 'tpls/default/thumbs/footer.png', label: 'Footer', tpl: 'tpls/default/footer.html'},
 						},
 						editables: 'editable',
-						style: 'tpls/default/styles/default.css'
+						style: 'tpls/default/styles/default.css',
+						namespace: false,
+						tinyMCEPlugins: "link image imagetools code"
 					}, options);
 					
 					// add ace editor
@@ -322,39 +325,43 @@
 					var style = false;
 					
 					return this.each(function(i, e){
+					
+						// namespace for styles
+						var namespace = settings.namespace;
+					
 						// add unique id attribute
 						if(!$(e).attr('id')) {
-							$(e).attr('id', 'mozaik-' + i);
+							$(e).attr('id', namespace ? namespace : 'mozaik-' + i);
 						}
+						namespace = $(e).attr('id');
+						
 						$(e).addClass('mozaik');
 						
 						// store and remove inner html and add preloader...
 						var html = $(e).html();
-						$(e).html(mozaik.getPreloaderHTML());
-						
-						// add template styles
-						if(!style && $('#mozaik-style-' + i).length==0) {
-							var _e = e;
-							var _i = i;
-							$.get(settings.style, function(css){
-								if(css) {
-									splits = css.split('}');
-									for(var i=0; i<splits.length-1; i++) {
-										splits[i] = '#mozaik-' + _i + ' ' + splits[i];
-									}
-									style = splits.join('}');
-									$(_e).prepend('<style id="mozaik-style-' + i + '" type="text/css">' + style + '</style>');
-								}
-								if(!style) {
-									style = true;
-								}
-							});
-						}
+						$(e).html(mozaik.getPreloaderHTML());	
 						
 						// add 'canvas' area
 						$(e).append(mozaik.getEditorListHTML());
 						
 						var $mozaik = $(e).find('.mozaik-list').first();
+						
+						// add template styles
+						if(!style && $('#mozaik-style-' + i).length==0) {
+							$.get(settings.style, function(css){
+								if(css) {
+									splits = css.split('}');
+									for(var i=0; i<splits.length-1; i++) {
+										splits[i] = "\n" + '#' + namespace + ' ' + splits[i];
+									}
+									style = splits.join('}');
+									$mozaik.prepend('<style id="mozaik-style-' + i + '" type="text/css">' + style + '</style>');
+								}
+								if(!style) {
+									style = true;
+								}
+							});
+						}						
 						
 						
 						// create thumbnails
@@ -371,14 +378,15 @@
 						
 						// add template particular
 						var addEditorListElement = function(name, html, scrollDown) {
-							$mozaik.append(mozaik.getEditorListElementHTML(name, html));
+							var listElemHTML = mozaik.getEditorListElementHTML(name, html);
+							$mozaik.append(listElemHTML);
 							var editables = name && settings.thumbs[name].editables ? settings.thumbs[name].editables.split(',') : settings.editables.split(',');
 							$.each(editables, function(i,e){
 								var sels = '.mozaik-inner, .mozaik-inner ' + e;
 								tinyMCE.init({
 									selector: sels,
 									inline: true,
-									plugins: "link image imagetools"
+									plugins: settings.tinyMCEPlugins
 								});
 							});
 
@@ -399,11 +407,8 @@
 								return false;
 							});
 							$mozaik.find('.mozaik-elem:last-child .mozaik-tool-source').bind('click', function(){
-								mozaik.aceElementId = $(this).closest('.mozaik-elem').find('.mozaik-inner').first().attr('id');
-								console.log('ace:', mozaik.aceElementId);
-								var html = $('#'+mozaik.aceElementId).html();
-								console.log(html);
-								mozaik.ace.setValue(html);
+								var html = tinyMCE.activeEditor.getContent();
+								mozaik.ace.setValue(html);								
 								$('#mozaik-ace').show();
 							});
 							$mozaik.find('.mozaik-elem:last-child .mozaik-tool-copy').bind('click', function(){
@@ -429,7 +434,6 @@
 						
 						// put elements back which was inside of the editor area originally
 						if(html) {
-							console.log('rebuild');
 							var length = 0;
 							try {
 								length = $(html).find('.mozaik-inner').length;
@@ -438,9 +442,7 @@
 								length = -1;
 							}
 							if(length == 0) {
-								console.log(html);
 								html = mozaik.getMozaikInnerHTML(false, html);
-								console.log(html);
 							}
 							else if(length == -1) {
 								html = mozaik.getEditorListElementHTML(false, html);
@@ -511,6 +513,7 @@
 								onResize();
 							});
 							
+							$(e).find('.mozaik-thumbs').show();
 							$(e).find('.mozaik-preloader').hide();
 						});
 									
@@ -566,7 +569,6 @@
 						// todo: test for mozaik already initialized on this element?!
 						var html = '';
 						$(e).find('ul.mozaik-list div.mozaik-inner').each(function(i,e){
-							console.log(settings.inlineStyles);
 							if(settings.inlineStyles) {
 								var tmpHtml = $(e).html();
 								var tmpStyle = $(e).attr('style');
@@ -616,18 +618,18 @@
 	<body>
 		<style>
 			.testarea {
-				height: 500px;
+				height: 600px;
 				overflow: hidden;
 				_border: 1px solid black;
 				_background: white;
 			}
 		</style>
-		<div class="testarea"><?php echo $html ? $html : 'Hello, edit this text area here..'; ?></div>
+		<div id="testarea_namespace" class="testarea"><?php echo $html ? $html : 'Hello, edit this text area here..'; ?></div>
 		<input type="button" value="save" id="btnSave" />
 		<script>
 			$('#btnSave').click(function(){
 				$.post('index.php?f=save', {
-					'tpl': $('.testarea').getMozaikValue()
+					'tpl': $('.testarea').getMozaikValue({inlineStyles: true})
 				}, function(){
 					console.log('ok');
 				});

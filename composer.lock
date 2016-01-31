@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d08b712845c0db4145174a183667bdab",
-    "content-hash": "c9f58474734fc763c75f897715b76437",
+    "hash": "9311c2e38c7cf4f9aa49aa192d096a44",
+    "content-hash": "88ba48b417b31755bc0330f7774d649b",
     "packages": [
         {
             "name": "components/jquery",
@@ -48,6 +48,54 @@
             "description": "jQuery JavaScript Library",
             "homepage": "http://jquery.com",
             "time": "2016-01-08 23:29:41"
+        },
+        {
+            "name": "components/jquery-htmlclean",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jquery-htmlclean.git",
+                "reference": "f7c6e6f1012200d47825694302855dab19225f10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jquery-htmlclean/zipball/f7c6e6f1012200d47825694302855dab19225f10",
+                "reference": "f7c6e6f1012200d47825694302855dab19225f10",
+                "shasum": ""
+            },
+            "require": {
+                "components/jquery": "*"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "jquery.htmlClean.js"
+                    ],
+                    "files": [
+                        "jquery.htmlClean.min.js"
+                    ],
+                    "shim": {
+                        "deps": [
+                            "jquery"
+                        ],
+                        "exports": "jQuery.htmlClean"
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Johnston",
+                    "homepage": "http://www.antix.co.uk"
+                }
+            ],
+            "description": "HTML Clean plug-in for jQuery",
+            "homepage": "https://code.google.com/p/jquery-clean/",
+            "time": "2014-01-17 14:57:32"
         },
         {
             "name": "components/jqueryui",
