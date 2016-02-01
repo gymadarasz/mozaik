@@ -225,6 +225,10 @@
 		
 		<script>
 			
+			if(mozaik || $.mozaik) {
+				throw 'MOZAIK: conflict detected';
+			}
+			
 			// mozaik helpers (private)
 			var mozaik = {
 				getThumbnailListHTML: function(id, thumbs) {
@@ -632,7 +636,7 @@
 		<script>
 			$('#btnSave').click(function(){
 				$.post('index.php?f=save', {
-					'tpl': $('.testarea').getMozaikValue({inlineStyles: true})
+					'tpl': $('.testarea').getMozaikValue({inlineStyles: false})
 				}, function(){
 					console.log('ok');
 				});
