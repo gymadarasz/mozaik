@@ -19,7 +19,7 @@ var mozaik = {
         return html;
     },
 
-    getEditorListElementHTML: function(name, innertext) {
+    getEditorListElementHTML: function(name, innertext, ace, style) {
         var html =
             '<li class="mozaik-elem" data-name="' + name + '">' +
             '	<ul class="mozaik-tools">' +
@@ -27,8 +27,8 @@ var mozaik = {
             '		<li class="mozaik-tool-btn mozaik-tool-remove"><a href="javascript:;" title="Delete"></a></li>' +
             '		<li class="mozaik-tool-btn mozaik-tool-stick"><a href="javascript:;" title="Stick"></a></li>' +
             '		<li class="mozaik-tool-btn mozaik-tool-copy"><a href="javascript:;" title="Copy"></a></li>' +
-            '		<li class="mozaik-tool-btn mozaik-tool-source"><a href="javascript:;" title="Source"></a></li>' +
-            '	</ul>' + this.getMozaikInnerHTML(name, innertext) +
+            (ace ? '<li class="mozaik-tool-btn mozaik-tool-source"><a href="javascript:;" title="Source"></a></li>' : '') +
+            '	</ul>' + this.getMozaikInnerHTML(name, innertext, style) +
             '</li>';
         return html;
     },
@@ -58,10 +58,10 @@ var mozaik = {
         return html;
     },
 
-    getPreloaderHTML: function() {
-        var html = '<div class="mozaik-preloader"><img alt="loading.." src="img/725.gif"></div>';
-        return html;
-    }
+    //getPreloaderHTML: function() {
+    //    var html = '<div class="mozaik-preloader"><img alt="loading.." src="img/725.gif"></div>';
+    //    return html;
+    //}
 };
 
 
@@ -83,7 +83,60 @@ var mozaik = {
             editables: 'editable',
             style: 'tpls/default/styles/default.css',
             namespace: false,
-            tinyMCEPlugins: "link image imagetools code"
+            tinyMCE: {
+                plugins: [
+                    'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                    'searchreplace wordcount visualblocks visualchars code fullscreen',
+                    'insertdatetime media nonbreaking save table contextmenu directionality',
+                    'emoticons template paste textcolor colorpicker textpattern imagetools'
+                ],
+                toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+                toolbar2: 'print preview media | forecolor backcolor | image | emoticons | table | link | fontsizeselect',
+                image_advtab: true,
+                textcolor_map: [
+                    "000000", "Black",
+                    "993300", "Burnt orange",
+                    "333300", "Dark olive",
+                    "003300", "Dark green",
+                    "003366", "Dark azure",
+                    "000080", "Navy Blue",
+                    "333399", "Indigo",
+                    "333333", "Very dark gray",
+                    "800000", "Maroon",
+                    "FF6600", "Orange",
+                    "808000", "Olive",
+                    "008000", "Green",
+                    "008080", "Teal",
+                    "0000FF", "Blue",
+                    "666699", "Grayish blue",
+                    "808080", "Gray",
+                    "FF0000", "Red",
+                    "FF9900", "Amber",
+                    "99CC00", "Yellow green",
+                    "339966", "Sea green",
+                    "33CCCC", "Turquoise",
+                    "3366FF", "Royal blue",
+                    "800080", "Purple",
+                    "999999", "Medium gray",
+                    "FF00FF", "Magenta",
+                    "FFCC00", "Gold",
+                    "FFFF00", "Yellow",
+                    "00FF00", "Lime",
+                    "00FFFF", "Aqua",
+                    "00CCFF", "Sky blue",
+                    "993366", "Red violet",
+                    "FFFFFF", "White",
+                    "FF99CC", "Pink",
+                    "FFCC99", "Peach",
+                    "FFFF99", "Light yellow",
+                    "CCFFCC", "Pale green",
+                    "CCFFFF", "Pale cyan",
+                    "99CCFF", "Light sky blue",
+                    "CC99FF", "Plum"
+                ]
+            },
+            ace: true,
+            width: '600px'
         }, options);
 
         // add ace editor
@@ -119,7 +172,7 @@ var mozaik = {
 
             // store and remove inner html and add preloader...
             var html = $(e).html();
-            $(e).html(mozaik.getPreloaderHTML());
+            $(e).html('');
 
             // add 'canvas' area
             $(e).append(mozaik.getEditorListHTML());
@@ -158,16 +211,15 @@ var mozaik = {
 
             // add template particular
             var addEditorListElement = function(name, html, scrollDown) {
-                var listElemHTML = mozaik.getEditorListElementHTML(name, html);
+                var listElemHTML = mozaik.getEditorListElementHTML(name, html, settings.ace, 'max-width:' + settings.width);
                 $mozaik.append(listElemHTML);
                 var editables = name && settings.thumbs[name].editables ? settings.thumbs[name].editables.split(',') : settings.editables.split(',');
                 $.each(editables, function(i,e){
-                    var sels = '.mozaik-inner, .mozaik-inner ' + e;
-                    tinyMCE.init({
-                        selector: sels,
-                        inline: true,
-                        plugins: settings.tinyMCEPlugins
-                    });
+                    var sels = '.mozaik-inner'; //, .mozaik-inner ' + e;
+                    var config = settings.tinyMCE;
+                    config.selector = sels;
+                    config.inline = true;
+                    tinyMCE.init(config);
                 });
 
                 // initialize toolbar
@@ -222,15 +274,19 @@ var mozaik = {
                     length = -1;
                 }
                 if(length == 0) {
-                    html = mozaik.getMozaikInnerHTML(false, html);
+                    html = mozaik.getMozaikInnerHTML(false, html, 'max-width:' + settings.width);
                 }
                 else if(length == -1) {
-                    html = mozaik.getEditorListElementHTML(false, html);
+                    html = mozaik.getEditorListElementHTML(false, html, settings.ace, 'max-width:' + settings.width);
+                }
+                if(!$(html).find('.mozaik-inner').length) {
+                    html = '<div>' + html + '</div>'
                 }
                 $(html).find('.mozaik-inner').each(function(i,e){
                     //$mozaik.append(mozaik.getEditorListElementHTML($(e).attr('data-name'), $(e).html()));
                     addEditorListElement($(e).attr('data-name') ? $(e).attr('data-name') : false, $(e).html());
                 });
+
             }
 
             // reset layout positions and clears
@@ -238,8 +294,8 @@ var mozaik = {
 
                 // layout width
                 $mozaik.css({
-                    width: $(e).outerWidth(true) - $('#' + mozaikThumbsId).outerWidth(true) - ($mozaik.outerWidth()-$mozaik.width()) - (parseInt($(e).css('border-left-width'))+parseInt($(e).css('border-right-width'))),
-                    height: $mozaik.parent().outerHeight(true) - ($mozaik.outerHeight(true)-$mozaik.height())
+                    width: $(e).outerWidth(true) - $('#' + mozaikThumbsId).outerWidth(true) - ($mozaik.outerWidth()-$mozaik.width()) - (parseInt($(e).css('border-left-width'))+parseInt($(e).css('border-right-width'))) //,
+                    //height: $mozaik.parent().outerHeight(true) - ($mozaik.outerHeight(true)-$mozaik.height())
                 });
 
                 // srollbars on editor area
@@ -294,7 +350,7 @@ var mozaik = {
                 });
 
                 $(e).find('.mozaik-thumbs').show();
-                $(e).find('.mozaik-preloader').hide();
+                //$(e).find('.mozaik-preloader').hide();
             });
 
         });
@@ -341,7 +397,8 @@ var mozaik = {
     $.fn.getMozaikValue = function(options) {
 
         var settings = $.extend({
-            inlineStyles: false
+            inlineStyles: false,
+            width: '600px'
         }, options);
 
         var ret = [];
@@ -367,7 +424,7 @@ var mozaik = {
                     $(e).attr('style', tmpStyle);
                 }
                 else {
-                    html += mozaik.getMozaikInnerHTML(false, $(e).html());
+                    html += mozaik.getMozaikInnerHTML(false, $(e).html(), $(e).attr('style'));
                 }
             });
             ret.push(html);
