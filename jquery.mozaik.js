@@ -62,6 +62,7 @@ var mozaik = {
     //    var html = '<div class="mozaik-preloader"><img alt="loading.." src="img/725.gif"></div>';
     //    return html;
     //}
+
 };
 
 
@@ -133,7 +134,13 @@ var mozaik = {
                     "CCFFFF", "Pale cyan",
                     "99CCFF", "Light sky blue",
                     "CC99FF", "Plum"
-                ]
+                ],
+                //setup: function(editor) {
+                //    var _editor = editor;
+                //    editor.on('focus', function(event){
+                //        mozaik.lastUsedEditor = _editor;
+                //    });
+                //}
             },
             ace: true,
             width: '600px'
