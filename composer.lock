@@ -1,0 +1,296 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "9311c2e38c7cf4f9aa49aa192d096a44",
+    "content-hash": "88ba48b417b31755bc0330f7774d649b",
+    "packages": [
+        {
+            "name": "components/jquery",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jquery.git",
+                "reference": "d8b2ac0c1978e9ed8602789123976b1c7161ef96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jquery/zipball/d8b2ac0c1978e9ed8602789123976b1c7161ef96",
+                "reference": "d8b2ac0c1978e9ed8602789123976b1c7161ef96",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "jquery.js"
+                    ],
+                    "files": [
+                        "jquery.min.js",
+                        "jquery.min.map",
+                        "jquery-migrate.js",
+                        "jquery-migrate.min.js"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "John Resig",
+                    "email": "jeresig@gmail.com"
+                }
+            ],
+            "description": "jQuery JavaScript Library",
+            "homepage": "http://jquery.com",
+            "time": "2016-01-08 23:29:41"
+        },
+        {
+            "name": "components/jquery-htmlclean",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jquery-htmlclean.git",
+                "reference": "f7c6e6f1012200d47825694302855dab19225f10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jquery-htmlclean/zipball/f7c6e6f1012200d47825694302855dab19225f10",
+                "reference": "f7c6e6f1012200d47825694302855dab19225f10",
+                "shasum": ""
+            },
+            "require": {
+                "components/jquery": "*"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "jquery.htmlClean.js"
+                    ],
+                    "files": [
+                        "jquery.htmlClean.min.js"
+                    ],
+                    "shim": {
+                        "deps": [
+                            "jquery"
+                        ],
+                        "exports": "jQuery.htmlClean"
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Johnston",
+                    "homepage": "http://www.antix.co.uk"
+                }
+            ],
+            "description": "HTML Clean plug-in for jQuery",
+            "homepage": "https://code.google.com/p/jquery-clean/",
+            "time": "2014-01-17 14:57:32"
+        },
+        {
+            "name": "components/jqueryui",
+            "version": "1.11.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jqueryui.git",
+                "reference": "c34f8dbf3ba57b3784b93f26119f436c0e8288e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jqueryui/zipball/c34f8dbf3ba57b3784b93f26119f436c0e8288e1",
+                "reference": "c34f8dbf3ba57b3784b93f26119f436c0e8288e1",
+                "shasum": ""
+            },
+            "require": {
+                "components/jquery": ">=1.6"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "name": "jquery-ui",
+                    "scripts": [
+                        "jquery-ui.js"
+                    ],
+                    "files": [
+                        "ui/**",
+                        "themes/**",
+                        "jquery-ui.min.js"
+                    ],
+                    "shim": {
+                        "deps": [
+                            "jquery"
+                        ],
+                        "exports": "jQuery"
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jQuery UI Team",
+                    "homepage": "http://jqueryui.com/about"
+                },
+                {
+                    "name": "Joern Zaefferer",
+                    "email": "joern.zaefferer@gmail.com",
+                    "homepage": "http://bassistance.de"
+                },
+                {
+                    "name": "Scott Gonzalez",
+                    "email": "scott.gonzalez@gmail.com",
+                    "homepage": "http://scottgonzalez.com"
+                },
+                {
+                    "name": "Kris Borchers",
+                    "email": "kris.borchers@gmail.com",
+                    "homepage": "http://krisborchers.com"
+                },
+                {
+                    "name": "Mike Sherov",
+                    "email": "mike.sherov@gmail.com",
+                    "homepage": "http://mike.sherov.com"
+                },
+                {
+                    "name": "TJ VanToll",
+                    "email": "tj.vantoll@gmail.com",
+                    "homepage": "http://tjvantoll.com"
+                },
+                {
+                    "name": "Corey Frang",
+                    "email": "gnarf37@gmail.com",
+                    "homepage": "http://gnarf.net"
+                },
+                {
+                    "name": "Felix Nagel",
+                    "email": "info@felixnagel.com",
+                    "homepage": "http://www.felixnagel.com"
+                }
+            ],
+            "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.",
+            "time": "2015-03-13 14:48:12"
+        },
+        {
+            "name": "gymadarasz/ace",
+            "version": "v1.2.3.stable",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gymadarasz/ace-builds.git",
+                "reference": "b42c59125a1ad073a0af9955812d9811814030ec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gymadarasz/ace-builds/zipball/b42c59125a1ad073a0af9955812d9811814030ec",
+                "reference": "b42c59125a1ad073a0af9955812d9811814030ec",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "gymadarasz",
+                    "email": "gyula.madarasz@gmail.com"
+                }
+            ],
+            "description": "ACE editor fork for composer",
+            "time": "2016-01-30 19:22:47"
+        },
+        {
+            "name": "gymadarasz/imagesloaded",
+            "version": "v4.1.01",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gymadarasz/imagesloaded.git",
+                "reference": "d156434a1cfab807961aca8497ee84a5bc249253"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gymadarasz/imagesloaded/zipball/d156434a1cfab807961aca8497ee84a5bc249253",
+                "reference": "d156434a1cfab807961aca8497ee84a5bc249253",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "gymadarasz",
+                    "email": "gyula.madarasz@gmail.com"
+                }
+            ],
+            "description": "imagesloaded jquery plugin fork",
+            "time": "2016-01-29 19:34:06"
+        },
+        {
+            "name": "tinymce/tinymce",
+            "version": "4.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tinymce/tinymce-dist.git",
+                "reference": "ea98451a2b7b7d64b5aa3c33509bd07406a6ab90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/ea98451a2b7b7d64b5aa3c33509bd07406a6ab90",
+                "reference": "ea98451a2b7b7d64b5aa3c33509bd07406a6ab90",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "tinymce.js",
+                        "plugins/*/plugin.js",
+                        "themes/*/theme.js"
+                    ],
+                    "files": [
+                        "tinymce.min.js",
+                        "plugins/*/plugin.min.js",
+                        "themes/*/theme.min.js",
+                        "skins/**"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "description": "Web based JavaScript HTML WYSIWYG editor control.",
+            "homepage": "http://www.tinymce.com",
+            "keywords": [
+                "editor",
+                "html",
+                "javascript",
+                "richtext",
+                "tinymce",
+                "wysiwyg"
+            ],
+            "time": "2016-01-13 15:10:44"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
