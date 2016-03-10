@@ -327,13 +327,20 @@ var mozaik = {
             $mozaik.droppable({
                 accept: '.mozaik-thumbnail',
                 drop: function(event, ui) {
+                    var regex = /^string:/i;
                     var name = ui.draggable.attr('data-name');
-                    var url = settings.base + settings.thumbs[name].tpl;
-                    $.get(url, function(resp){
-                        addEditorListElement(name, resp, true);
+                    if(settings.thumbs[name].tpl.match(regex)) {
+                        addEditorListElement(name, settings.thumbs[name].tpl.replace(regex, ''), true);
                         onResize();
-                        //!@#
-                    });
+                    }
+                    else {
+                        var url = settings.base + settings.thumbs[name].tpl;
+                        $.get(url, function (resp) {
+                            addEditorListElement(name, resp, true);
+                            onResize();
+                            //!@#
+                        });
+                    }
                 }
             });
 
