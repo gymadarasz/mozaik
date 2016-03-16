@@ -44,7 +44,9 @@ var mozaik = {
     },
 
     getMozaikInnerHTML: function(name, innertext, style) {
-        var html = '<div class="mozaik-inner"' + (name ? ' data-name="' + name + '"' : '') + (style ? ' style="' + style + '"' : '') + '>' + innertext + '</div>';
+        style = ($(innertext).attr('style') ? $(innertext).attr('style') + ';' : '') + style;
+        style = style.replace(/;\s*;/, ';');
+        var html = '<div class="mozaik-inner"' + (name ? ' data-name="' + name + '"' : '') + ' style="' + style + '">' + innertext + '</div>';
         return html;
     },
 
@@ -256,8 +258,10 @@ var plgBackground = {
             //if(!$mozaik.css('background-color')) $mozaik.css('background-color', '#ddd');
 
             // add template particular
-            var addEditorListElement = function(name, html, scrollDown, toolPlugins) {
-                var listElemHTML = mozaik.getEditorListElementHTML(name, html, settings.ace, 'max-width:' + settings.width, toolPlugins);
+            var addEditorListElement = function(name, html, scrollDown, toolPlugins, style) {
+                style = (style ? style + ';' : '') + 'max-width:' + settings.width;
+                style = style.replace(/;\s*;/, ';');
+                var listElemHTML = mozaik.getEditorListElementHTML(name, html, settings.ace, style, toolPlugins);
                 $mozaik.append(listElemHTML);
                 var editables = name && settings.thumbs[name].editables ? settings.thumbs[name].editables.split(',') : settings.editables.split(',');
                 $.each(editables, function(i,e){
@@ -330,7 +334,7 @@ var plgBackground = {
                 }
                 $(html).find('.mozaik-inner').each(function(i,e){
                     //$mozaik.append(mozaik.getEditorListElementHTML($(e).attr('data-name'), $(e).html()));
-                    addEditorListElement($(e).attr('data-name') ? $(e).attr('data-name') : false, $(e).html(), null, settings.toolPlugins);
+                    addEditorListElement($(e).attr('data-name') ? $(e).attr('data-name') : false, $(e).html(), null, settings.toolPlugins, $(e).attr('style'));
                 });
 
             }
