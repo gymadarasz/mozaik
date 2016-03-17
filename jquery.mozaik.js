@@ -473,7 +473,7 @@ var plgBackground = {
                         var sel = parts[0];
                         var defs = parts[1];
                         $(sel).each(function(l, el){
-                            if($(el).hasClass('mozaik-inner') || $(el).closest('.mozaik-inner').length) {
+                            if(($(el).hasClass('mozaik-inner') || $(el).closest('.mozaik-inner').length) && !$(el).hasClass('mozaik-tools') && !$(el).closest('.mozaik-tools').length) {
 
                                 // corrigate inline font-size and line height style
                                 var fontSize = $(el).css('font-size');
@@ -484,7 +484,13 @@ var plgBackground = {
                                 // corrigate inline styles..
                                 var style = defs + (typeof $(el).attr('style') != 'undefined' && $(el).attr('style') ? $(el).attr('style') + ';' : '');
                                 style = style.replace(/;\s*;/, ';');
-                                $(el).attr('style', style);
+                                var cssProps = style.split(';');
+                                for (var l=0; l < cssProps.length - 1; l++) {
+                                    var cssDef = cssProps[l].split(':');
+                                    var cssProp = cssDef[0];
+                                    var cssValue = cssDef[1];
+                                    $(el).css(cssProp, cssValue);
+                                }
 
                                 // corrigate template section margins and paddings..
                                 if($(el).hasClass('mozaik-inner')) {
