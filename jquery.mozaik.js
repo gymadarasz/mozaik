@@ -498,15 +498,17 @@ var plgBackground = {
                                     var cssDef = cssProps[l].split(':');
                                     var cssProp = cssDef[0];
                                     var cssValue = cssDef[1];
-                                    $(el).css(cssProp, cssValue);
+                                    $(el).css(cssProp, $(el).css(cssProp));
                                 }
 
                                 // corrigate template section margins and paddings..
-                                if($(el).hasClass('mozaik-inner')) {
-                                    var padding = $(el).css('padding-top') + ' ' + $(el).css('padding-right') + ' ' + $(el).css('padding-bottom') + ' ' + $(el).css('padding-left');
-                                    var margin = $(el).css('margin-top') + ' ' + $(el).css('margin-right') + ' ' + $(el).css('margin-bottom') + ' ' + $(el).css('margin-left');
-                                    $(el).css('padding', padding);
-                                    $(el).css('margin', margin);
+                                var padding = $(el).css('padding-top') + ' ' + $(el).css('padding-right') + ' ' + $(el).css('padding-bottom') + ' ' + $(el).css('padding-left');
+                                var margin = $(el).css('margin-top') + ' ' + $(el).css('margin-right') + ' ' + $(el).css('margin-bottom') + ' ' + $(el).css('margin-left');
+                                $(el).css('padding', padding);
+                                $(el).css('margin', margin);
+
+                                if($(el).hasClass('mozaik-clear')) {
+                                    $(el).css('height', '0');
                                 }
                             }
                         })
