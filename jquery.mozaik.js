@@ -207,6 +207,23 @@ var plgBackground = {
 
         return this.each(function(i, e){
 
+            var insertTemplateSection = function(name){
+                var regex = /^string:/i;
+                if(settings.thumbs[name].tpl.match(regex)) {
+                    addEditorListElement(name, settings.thumbs[name].tpl.replace(regex, ''), true, settings.toolPlugins);
+                    onResize();
+                }
+                else {
+                    var url = settings.base + settings.thumbs[name].tpl;
+                    $.get(url, function (resp) {
+                        addEditorListElement(name, resp, true, settings.toolPlugins);
+                        onResize();
+                        //!@#
+                    });
+                }
+                $(window).mouseup();
+            }
+
             // namespace for styles
             var namespace = settings.namespace;
 
@@ -250,6 +267,10 @@ var plgBackground = {
             $(e).prepend(mozaik.getThumbnailListHTML(mozaikThumbsId, settings.thumbs, settings.base));
             $('.mozaik-thumbnail').draggable({
                 helper: 'clone'
+            });
+            $('.mozaik-thumbnail').click(function(e){
+                var name = $(this).attr('data-name');
+                insertTemplateSection(name);
             });
 
             // set area layout
@@ -363,21 +384,8 @@ var plgBackground = {
             $mozaik.droppable({
                 accept: '.mozaik-thumbnail',
                 drop: function(event, ui) {
-                    var regex = /^string:/i;
                     var name = ui.draggable.attr('data-name');
-                    if(settings.thumbs[name].tpl.match(regex)) {
-                        addEditorListElement(name, settings.thumbs[name].tpl.replace(regex, ''), true, settings.toolPlugins);
-                        onResize();
-                    }
-                    else {
-                        var url = settings.base + settings.thumbs[name].tpl;
-                        $.get(url, function (resp) {
-                            addEditorListElement(name, resp, true, settings.toolPlugins);
-                            onResize();
-                            //!@#
-                        });
-                    }
-                    $(window).mouseup();
+                    insertTemplateSection(name);
                 }
             });
 
@@ -466,7 +474,6 @@ var plgBackground = {
             if(settings.applyStyles) {
                 $(e).find('style').each(function (j, styleElem) {
                     var css = $(styleElem).html();
-                    console.log(css);
                     var splits = css.split('}');
                     for (var k = 0; k < splits.length - 1; k++) {
                         var parts = splits[k].split('{');
