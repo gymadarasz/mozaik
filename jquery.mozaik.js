@@ -483,8 +483,10 @@ var plgBackground = {
                             if(($(el).hasClass('mozaik-inner') || $(el).closest('.mozaik-inner').length) && !$(el).hasClass('mozaik-tools') && !$(el).closest('.mozaik-tools').length) {
 
                                 // corrigate inline font-size and line height style
+                                var fontFamily = $(el).css('font-family');
                                 var fontSize = $(el).css('font-size');
                                 var lineHeight = $(el).css('line-height');
+                                $(el).css('font-family', fontFamily);
                                 $(el).css('font-size', fontSize);
                                 $(el).css('line-height', lineHeight);
 
