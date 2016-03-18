@@ -486,9 +486,26 @@ var plgBackground = {
                                 var fontFamily = $(el).css('font-family');
                                 var fontSize = $(el).css('font-size');
                                 var lineHeight = $(el).css('line-height');
+                                var color = $(el).css('color');
                                 $(el).css('font-family', fontFamily);
                                 $(el).css('font-size', fontSize);
                                 $(el).css('line-height', lineHeight);
+                                $(el).css('color', color);
+
+                                // corrigate template section margins and paddings..
+                                var padding = $(el).css('padding-top') + ' ' + $(el).css('padding-right') + ' ' + $(el).css('padding-bottom') + ' ' + $(el).css('padding-left');
+                                var margin = $(el).css('margin-top') + ' ' + $(el).css('margin-right') + ' ' + $(el).css('margin-bottom') + ' ' + $(el).css('margin-left');
+                                $(el).css('padding', padding);
+                                $(el).css('margin', margin);
+
+                                if($(el).hasClass('mozaik-clear')) {
+                                    $(el).css('height', '0');
+                                }
+                                if($(el).hasClass('mozaik-inner')) {
+                                    if($(el).css('width', '100%')) {
+                                        $(el).css('width', 'initial');
+                                    }
+                                }
 
                                 // corrigate inline styles..
                                 var style = defs + (typeof $(el).attr('style') != 'undefined' && $(el).attr('style') ? $(el).attr('style') + ';' : '');
@@ -501,15 +518,7 @@ var plgBackground = {
                                     $(el).css(cssProp, $(el).css(cssProp));
                                 }
 
-                                // corrigate template section margins and paddings..
-                                var padding = $(el).css('padding-top') + ' ' + $(el).css('padding-right') + ' ' + $(el).css('padding-bottom') + ' ' + $(el).css('padding-left');
-                                var margin = $(el).css('margin-top') + ' ' + $(el).css('margin-right') + ' ' + $(el).css('margin-bottom') + ' ' + $(el).css('margin-left');
-                                $(el).css('padding', padding);
-                                $(el).css('margin', margin);
 
-                                if($(el).hasClass('mozaik-clear')) {
-                                    $(el).css('height', '0');
-                                }
                             }
                         })
                     }
