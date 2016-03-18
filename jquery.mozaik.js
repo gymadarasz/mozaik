@@ -44,8 +44,8 @@ var mozaik = {
     },
 
     getMozaikInnerHTML: function(name, innertext, style) {
-        style = ($(innertext).attr('style') ? $(innertext).attr('style') + ';' : '') + style;
-        style = style.replace(/;\s*;/, ';');
+        //style = ($(innertext).attr('style') ? $(innertext).attr('style') + ';' : '') + style;
+        //style = style.replace(/;\s*;/, ';');
         var html = '<div class="mozaik-inner"' + (name ? ' data-name="' + name + '"' : '') + ' style="' + style + '">' + innertext + '</div>';
         return html;
     },
