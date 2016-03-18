@@ -88,9 +88,28 @@ var plgBackground = {
     onClick: function(elem, name) {
         if(!$(elem).attr('data-initialized')) {
             // TODO : add colorpicker to packagist and composer
+            var $mozaikInner = $(elem).closest('.mozaik-elem').find('.mozaik-inner');
             $(elem).ColorPicker({
+                onShow: function (colpkr) {
+                    //Function to convert hex format to a rgb color
+                    function rgb2hex(orig, hash){
+                        if(typeof hash == 'undefined' || !hash) {
+                            hash = false;
+                        }
+                        var rgb = orig.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);
+                        var ret = (rgb && rgb.length === 4) ? "#" +
+                        ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+                        ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+                        ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : orig;
+                        while(!hash && ret.match(/^\#/)) {
+                            ret = ret.replace(/^\#/, '');
+                        }
+                        return ret;
+                    }
+                    $(this).ColorPickerSetColor(rgb2hex($mozaikInner.css('background-color')));
+                },
                 onChange: function(rbg, hex){
-                    $(elem).closest('.mozaik-elem').find('.mozaik-inner').css('background-color', '#'+hex);
+                    $mozaikInner.css('background-color', '#'+hex);
                 },
             });
             $(elem).attr('data-initialized', '1');
