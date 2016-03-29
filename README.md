@@ -56,3 +56,4 @@ $('#template').mozaik({
 ```
 
 See more on Guthub: https://github.com/gymadarasz/mozaik
+Demo: http://madsoft.hu/mozaik/
